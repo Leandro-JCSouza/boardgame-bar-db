@@ -13,8 +13,9 @@ CREATE TABLE Funcionario (
     nome_funcionario VARCHAR(100) NOT NULL,
     cpf_funcionario VARCHAR(14) UNIQUE NOT NULL,
     cargo VARCHAR(50) NOT NULL,
+    salario DECIMAL(10,2) NOT NULL DEFAULT 2500.00,
     data_admissao DATE NOT NULL,
-    status_funcionario VARCHAR(15) DEFAULT 'Ativo' -- 'Ativo' ou 'Inativo'
+    status_funcionario VARCHAR(15) DEFAULT 'Ativo'
 );
 
 CREATE TABLE Mesa (

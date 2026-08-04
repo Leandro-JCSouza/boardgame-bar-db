@@ -8,10 +8,10 @@ INSERT INTO Cliente (nome_completo, cpf, telefone, email) VALUES
 ('Bruno Costa', '222.333.444-55', '(65) 99999-2222', 'bruno.costa@email.com'),
 ('Carla Souza', '333.444.555-66', '(65) 99999-3333', 'carla.souza@email.com');
 
--- 2. FUNCIONÁRIOS
-INSERT INTO Funcionario (nome_funcionario, cpf_funcionario, cargo, data_admissao) VALUES
-('Carlos Atendente', '444.555.666-77', 'Atendente', '2025-01-15'),
-('Mariana Gerente', '555.666.777-88', 'Gerente', '2024-06-01');
+-- 2. FUNCIONÁRIOS (Incluindo coluna de salário)
+INSERT INTO Funcionario (nome_funcionario, cpf_funcionario, cargo, salario, data_admissao) VALUES
+('Carlos Atendente', '444.555.666-77', 'Atendente', 2200.00, '2025-01-15'),
+('Mariana Gerente', '555.666.777-88', 'Gerente', 4500.00, '2024-06-01');
 
 -- 3. MESAS
 INSERT INTO Mesa (numero_mesa, capacidade_lugares, status_mesa) VALUES
@@ -38,25 +38,40 @@ INSERT INTO Insumo (nome_insumo, qtd_estoque_atual, unidade_medida, preco_unitar
 ('Queijo Cheddar', 5.00, 'kg', 45.00),
 ('Batata Congelada', 15.00, 'kg', 12.00);
 
--- 7. JOGOS DE TABULEIRO
+-- 7. FICHA TÉCNICA (Ingredientes por Produto)
+INSERT INTO Ficha_Tecnica_Produto (id_produto, id_insumo, quantidade_necessaria) VALUES
+(1, 1, 1.00), -- 1 Hambúrguer usa 1 Pão
+(1, 2, 1.00), -- 1 Hambúrguer usa 1 Carne
+(1, 3, 0.05); -- 1 Hambúrguer usa 50g de Cheddar
+
+-- 8. JOGOS DE TABULEIRO
 INSERT INTO Jogo (nome_jogo, categoria_jogo, status_jogo, aluguel_hora_atual) VALUES
 ('Catan', 'Estratégia', 'Em Uso', 15.00),
 ('Ticket to Ride', 'Família', 'Disponivel', 12.00),
 ('Dixit', 'Party Game', 'Disponivel', 10.00),
 ('Azul', 'Estratégia Light', 'Em Manutenção', 12.00);
 
--- 8. RESERVAS
+-- 9. COMPRAS DE ESTOQUE (Fornecedores - Julho/2026)
+INSERT INTO Compra_Estoque (data_compra, valor_total_nota, id_fornecedor) VALUES
+('2026-07-05', 1200.00, 2),
+('2026-07-15', 850.00, 1);
+
+-- 10. RESERVAS
 INSERT INTO Reserva (data_hora_reserva, status_reserva, qtd_pessoas_esperadas, id_cliente, id_mesa) VALUES
 ('2026-08-10 19:00:00', 'Agendada', 2, 3, 3);
 
--- 9. COMANDAS
+-- 11. COMANDAS (Incluindo comandas fechadas em Julho/2026 para os relatórios)
 INSERT INTO Comanda (data_abertura, valor_total_consumo, gorjeta, status_comanda, desconto_percentual, id_cliente, id_mesa, id_funcionario) VALUES
+('2026-07-20 19:00:00', 180.00, 18.00, 'Fechada', 5.00, 2, 2, 1),
 ('2026-08-04 18:30:00', 97.00, 9.70, 'Aberta', 0.00, 1, 1, 1);
 
--- 10. ITENS DA COMANDA (CONSUMO E ALUGUEL)
+-- 12. ITENS DA COMANDA (CONSUMO E ALUGUEL)
 INSERT INTO Item_Comanda_Produto (id_comanda, id_produto, quantidade_pedida_produto, preco_un_cobrado_produto) VALUES
-(1, 1, 2, 35.00), -- 2 Hambúrgueres
-(1, 3, 2, 7.00);   -- 2 Refrigerantes
+(1, 1, 2, 35.00),
+(1, 4, 4, 18.00),
+(2, 1, 2, 35.00),
+(2, 3, 2, 7.00);
 
-INSERT INTO Item_Comanda_Jogo (id_comanda, id_jogo, hora_inicio_aluguel, aluguel_hora_cobrado) VALUES
-(1, 1, '2026-08-04 18:45:00', 15.00); -- Aluguel do Catan
+INSERT INTO Item_Comanda_Jogo (id_comanda, id_jogo, hora_inicio_aluguel, hora_devolucao_aluguel, aluguel_hora_cobrado) VALUES
+(1, 2, '2026-07-20 19:15:00', '2026-07-20 22:15:00', 36.00),
+(2, 1, '2026-08-04 18:45:00', NULL, 15.00);
